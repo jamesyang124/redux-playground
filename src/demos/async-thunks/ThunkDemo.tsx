@@ -1,32 +1,46 @@
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { useState } from 'react'
-import styled from 'styled-components'
+import { MOCK_SERVER_URL, generateMockUser, generateMockPost, type User, type Post } from '../../../mocks/server'
 
 // Mock API functions
 const mockApi = {
   fetchUser: async (id) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (id > 10) throw new Error('User not found')
-    return {
-      id,
-      name: `User ${id}`,
-      email: `user${id}@example.com`,
-      posts: Math.floor(Math.random() * 20)
+    
+    // Try to fetch from mock server first, fallback to generated data
+    try {
+      const response = await fetch(`${MOCK_SERVER_URL}/users/${id}`)
+      if (response.ok) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.log('Using generated mock data')
     }
+    
+    return generateMockUser(id)
   },
   
   fetchUserPosts: async (userId) => {
     await new Promise(resolve => setTimeout(resolve, 800))
+    
+    // Try to fetch from mock server first, fallback to generated data
+    try {
+      const response = await fetch(`${MOCK_SERVER_URL}/posts?userId=${userId}`)
+      if (response.ok) {
+        const posts = await response.json()
+        if (posts.length > 0) return posts
+      }
+    } catch (error) {
+      console.log('Using generated mock data')
+    }
+    
+    // Generate mock posts if none found
     const posts = []
     const postCount = Math.floor(Math.random() * 5) + 1
     for (let i = 1; i <= postCount; i++) {
-      posts.push({
-        id: i,
-        userId,
-        title: `Post ${i} by User ${userId}`,
-        body: `This is the content of post ${i} by user ${userId}.`
-      })
+      posts.push(generateMockPost(userId, Date.now() + i))
     }
     return posts
   }
@@ -119,76 +133,6 @@ const store = configureStore({
   },
 })
 
-const Container = styled.div`
-  padding: 2rem;
-`
-
-const Title = styled.h2`
-  color: #764abc;
-  margin-bottom: 1rem;
-`
-
-const Controls = styled.div`
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`
-
-const Input = styled.input`
-  padding: 0.5rem;
-  margin-right: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100px;
-`
-
-const Button = styled.button`
-  background: #764abc;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 0.5rem;
-
-  &:hover {
-    background: #5a3a94;
-  }
-
-  &:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-`
-
-const Card = styled.div`
-  border: 1px solid #eee;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-`
-
-const LoadingState = styled.div`
-  padding: 1rem;
-  color: #666;
-  font-style: italic;
-`
-
-const ErrorState = styled.div`
-  padding: 1rem;
-  color: #dc3545;
-  background: #f8d7da;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-`
-
-const PostItem = styled.div`
-  padding: 1rem;
-  border: 1px solid #eee;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-`
 
 function ThunkDemoContent() {
   const [userId, setUserId] = useState('')
@@ -249,6 +193,7 @@ function ThunkDemoContent() {
             onChange={(e) => setUserId(e.target.value)}
             min="1"
             max="15"
+            style={{ width: '100px', marginRight: '1rem' }}
           />
           <Button onClick={handleFetchUser} disabled={loading || !userId}>
             {loading ? 'Loading...' : 'Fetch User'}
@@ -305,10 +250,10 @@ function ThunkDemoContent() {
           {userPosts.length > 0 && !postsLoading && (
             <div>
               {userPosts.map((post) => (
-                <PostItem key={post.id}>
+                <ListItem key={post.id}>
                   <h4>{post.title}</h4>
                   <p>{post.body}</p>
-                </PostItem>
+                </ListItem>
               ))}
             </div>
           )}

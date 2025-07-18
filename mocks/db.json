@@ -1,0 +1,148 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "555-0101",
+      "website": "johndoe.com",
+      "company": {
+        "name": "Doe Enterprises"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "phone": "555-0102",
+      "website": "janesmith.dev",
+      "company": {
+        "name": "Smith Tech Solutions"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Bob Johnson",
+      "email": "bob.johnson@example.com",
+      "phone": "555-0103",
+      "website": "bobjohnson.io",
+      "company": {
+        "name": "Johnson & Associates"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Alice Brown",
+      "email": "alice.brown@example.com",
+      "phone": "555-0104",
+      "website": "alicebrown.net",
+      "company": {
+        "name": "Brown Digital"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Charlie Wilson",
+      "email": "charlie.wilson@example.com",
+      "phone": "555-0105",
+      "website": "charliewilson.org",
+      "company": {
+        "name": "Wilson Innovations"
+      }
+    }
+  ],
+  "posts": [
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Understanding RTK Query",
+      "body": "RTK Query is a powerful data fetching and caching solution built on top of Redux Toolkit."
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "title": "Async Thunks in Redux",
+      "body": "createAsyncThunk simplifies the process of handling asynchronous logic in Redux applications."
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "title": "State Management Best Practices",
+      "body": "Learn the best practices for managing state in modern React applications with Redux."
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "title": "Building Scalable React Apps",
+      "body": "Tips and techniques for building scalable React applications with proper state management."
+    },
+    {
+      "id": 6,
+      "userId": 3,
+      "title": "Redux DevTools Guide",
+      "body": "A comprehensive guide to using Redux DevTools for debugging your Redux applications."
+    },
+    {
+      "id": 7,
+      "userId": 4,
+      "title": "Modern React Patterns",
+      "body": "Exploring modern React patterns and how they work with Redux Toolkit."
+    },
+    {
+      "id": 8,
+      "userId": 4,
+      "title": "Performance Optimization",
+      "body": "Techniques for optimizing the performance of React Redux applications."
+    },
+    {
+      "id": 9,
+      "userId": 5,
+      "title": "Testing Redux Applications",
+      "body": "Best practices for testing Redux applications and RTK Query endpoints."
+    },
+    {
+      "id": 10,
+      "userId": 5,
+      "title": "Advanced Redux Patterns",
+      "body": "Advanced patterns and techniques for complex Redux applications."
+    },
+    {
+      "title": "we",
+      "body": "qwee",
+      "userId": 1,
+      "id": 11
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Learn Redux Toolkit",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Build a todo app",
+      "completed": false
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "title": "Implement RTK Query",
+      "completed": true
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "title": "Add error handling",
+      "completed": false
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "title": "Write unit tests",
+      "completed": false
+    }
+  ]
+}

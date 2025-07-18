@@ -1,13 +1,26 @@
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import styled from 'styled-components'
+import { MOCK_SERVER_URL, type Post } from '../../../mocks/server'
+import { 
+  Container, 
+  Title, 
+  Form, 
+  Input, 
+  Button, 
+  DeleteButton, 
+  ListContainer, 
+  ListItem, 
+  ItemContent,
+  LoadingState,
+  ErrorState
+} from '../../components/ui'
 
 // Mock API
 const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://jsonplaceholder.typicode.com/',
+    baseUrl: MOCK_SERVER_URL,
   }),
   tagTypes: ['Post'],
   endpoints: (builder) => ({
@@ -43,75 +56,6 @@ const store = configureStore({
 
 const { useGetPostsQuery, useAddPostMutation, useDeletePostMutation } = api
 
-const Container = styled.div`
-  padding: 2rem;
-`
-
-const Title = styled.h2`
-  color: #764abc;
-  margin-bottom: 1rem;
-`
-
-const Form = styled.form`
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`
-
-const Input = styled.input`
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`
-
-const Button = styled.button`
-  background: #764abc;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 0.5rem;
-
-  &:hover {
-    background: #5a3a94;
-  }
-
-  &:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-`
-
-const PostList = styled.div`
-  max-height: 400px;
-  overflow-y: auto;
-`
-
-const PostItem = styled.div`
-  padding: 1rem;
-  border: 1px solid #eee;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-`
-
-const PostContent = styled.div`
-  flex: 1;
-`
-
-const DeleteButton = styled(Button)`
-  background: #dc3545;
-  
-  &:hover {
-    background: #c82333;
-  }
-`
 
 function MutationDemoContent() {
   const { data: posts = [], isLoading, error } = useGetPostsQuery()
@@ -143,8 +87,8 @@ function MutationDemoContent() {
     }
   }
 
-  if (isLoading) return <div>Loading posts...</div>
-  if (error) return <div>Error: {error.message}</div>
+  if (isLoading) return <LoadingState>Loading posts...</LoadingState>
+  if (error) return <ErrorState>Error: {error.message}</ErrorState>
 
   return (
     <Container>
@@ -169,19 +113,19 @@ function MutationDemoContent() {
       </Form>
 
       <h3>Posts ({posts.length})</h3>
-      <PostList>
+      <ListContainer>
         {posts.slice(0, 10).map((post) => (
-          <PostItem key={post.id}>
-            <PostContent>
+          <ListItem key={post.id}>
+            <ItemContent>
               <h4>{post.title}</h4>
               <p>{post.body}</p>
-            </PostContent>
+            </ItemContent>
             <DeleteButton onClick={() => handleDelete(post.id)}>
               Delete
             </DeleteButton>
-          </PostItem>
+          </ListItem>
         ))}
-      </PostList>
+      </ListContainer>
     </Container>
   )
 }

@@ -11,7 +11,9 @@ npm install
 
 ## Development
 ```bash
-npm run dev
+npm run dev          # Start both mocks server and Vite dev server
+npm run dev:client   # Start only Vite dev server
+npm run mock-server  # Start only mocks server (port 3001)
 ```
 
 ## Build
@@ -23,6 +25,13 @@ npm run build
 ```bash
 npm run lint
 ```
+
+## Mocks Server
+The project includes a JSON Server mocks API running on port 3001:
+- **Data**: `mocks/db.json` contains users, posts, and todos
+- **Endpoints**: `/users`, `/posts`, `/todos`, `/posts?userId=1`, etc.
+- **Features**: Realistic network delays, full CRUD operations
+- **Utilities**: `mocks/server.js` provides helpers and configuration
 
 ## Tech Stack
 - **Vite**: Build tool and dev server
